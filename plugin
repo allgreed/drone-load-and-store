@@ -1,0 +1,30 @@
+#!/usr/bin/env sh
+set -euo pipefail
+
+docker_username=$PLUGIN_USERNAME
+docker_password=$PLUGIN_PASSWORD
+docker_repository=$PLUGIN_REPO
+image_archive=$PLUGIN_ARCHIVE
+
+docker_registry=${PLUGIN_REGISTRY:-'docker.io'}
+debug=${PLUGIN_DEBUG:-''}
+
+
+regrepo=$docker_registry/$docker_repository
+tags=$(cat .tags)
+
+alias podman='podman --storage-driver=vfs'
+
+trap 'podman logout' EXIT
+podman login -u "$docker_username" -p "$docker_password" "$docker_registry"
+
+loaded_image_name=$(podman load -i "$image_archive"| cut -f 2 -d'/')
+
+previous_name=$loaded_image_name
+for tag in  ${tags//,/ }
+do
+    current_name="$regrepo:$tag"
+    podman tag $previous_name $current_name
+    previous_tag=$current_name
+    podman push $current_name
+done
