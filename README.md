@@ -17,9 +17,14 @@ make init
 make help
 ```
 
+## High level goals
+- must work with Drone cloud (so no privilaged features)
+- should mimic the API of the [default Docker plugin](http://plugins.drone.io/drone-plugins/drone-docker/)
+- rewrite from bash to some real programming language is fine as long as the code and build process is kept simple
+
 ## TODO:
 - build with nix (and from scratch)
 - maybe add shellcheck as lint? :D
 - add a testing suite that takes a sample image and pushes it to controlled instance of docker registry
-- write docs
-- maybe try to push this to Drone marketplace
+- make a propper CI
+- better error messages
