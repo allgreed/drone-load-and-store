@@ -1,5 +1,5 @@
-# repo-name
-Repo description
+# drone-load-and-store
+load, tag and push a Docker image in unprivileged, containerized environment, also: a Drone plugin 
 
 ## Prerequisites
 - [nix](https://nixos.org/nix/manual/#chap-installation)
